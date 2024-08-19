@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, Typography } from '@mui/material';
 import './TaskBoard.css';
 
-const TaskBoard = ({ tasks }) => {
+const TaskBoard = ({ tasks=[] }) => {
+    if (tasks?.length === 0) {
+        return <h2>No Tasks Created.</h2>;
+    }
+    
   return (
     <div className="task-board">
       {tasks.map((task) => (
