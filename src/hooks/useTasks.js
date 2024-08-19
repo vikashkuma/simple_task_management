@@ -1,25 +1,28 @@
 // src/hooks/useTasks.js
 import { useState, useEffect } from 'react';
-import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
+import { getTasksFromLocalStorage, saveTasksToLocalStorage } from '../utils/localStorage';
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState(getFromLocalStorage('tasks'));
-
-  useEffect(() => {
-    const storedTasks = getFromLocalStorage('tasks') || [];
-    setTasks(storedTasks);
-  }, []);
-
-  useEffect(() => {
-    saveToLocalStorage('tasks', tasks);
-  }, [tasks]);
+  const [tasks, setTasks] = useState(getTasksFromLocalStorage('tasks') ?? []);
 
   const addTask = (task) => {
-    setTasks([...tasks, { ...task, id: tasks.length + 1 }]);
+    const newTask = { ...task, id: Date.now().toString() };
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
+  };
+
+  const updateTask = async (id, updatedTask) => {
+    const updatedTasks = tasks.map((task) =>
+      String(task.id) === id ? { ...task, ...updatedTask } : task
+    );
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage('tasks', updatedTasks);
   };
 
   return {
     tasks,
     addTask,
+    updateTask,
   };
 };

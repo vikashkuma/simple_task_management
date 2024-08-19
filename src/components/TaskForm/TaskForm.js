@@ -1,23 +1,29 @@
 // src/components/TaskForm/TaskForm.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 import './TaskForm.css';
 
-const TaskForm = ({ onSubmit }) => {
-  const [task, setTask] = useState({
+const TaskForm = ({ task, onSubmit }) => {
+  const [taskData, setTaskData] = useState({
     name: '',
     description: '',
     deadline: '',
   });
 
+  useEffect(() => {
+    if (task) {
+      setTaskData(task);
+    }
+  }, [task]);
+
   const handleChange = (e) => {
-    setTask({ ...task, [e.target.name]: e.target.value });
+    setTaskData({ ...taskData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(task);
-    setTask({ name: '', description: '', deadline: '' });
+    onSubmit(taskData);
+    setTaskData({ name: '', description: '', deadline: '' });
   };
 
   return (
@@ -25,14 +31,14 @@ const TaskForm = ({ onSubmit }) => {
       <TextField
         label="Task Name"
         name="name"
-        value={task.name}
+        value={taskData.name}
         onChange={handleChange}
         required
       />
       <TextField
         label="Description"
         name="description"
-        value={task.description}
+        value={taskData.description}
         onChange={handleChange}
         multiline
         rows={4}
@@ -41,14 +47,14 @@ const TaskForm = ({ onSubmit }) => {
         label="Deadline"
         name="deadline"
         type="date"
-        value={task.deadline}
+        value={taskData.deadline}
         onChange={handleChange}
         InputLabelProps={{
           shrink: true,
         }}
       />
       <Button variant="contained" color="primary" type="submit">
-        Save Task
+        {task ? 'Update Task' : 'Save Task'}
       </Button>
     </form>
   );

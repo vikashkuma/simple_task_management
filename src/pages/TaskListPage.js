@@ -1,14 +1,20 @@
-// src/pages/TaskListPage.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskBoard from '../components/TaskBoard/TaskBoard';
-import { useTasks } from '../hooks/useTasks';
+import {getTasksFromLocalStorage} from '../utils/localStorage'
 
 const TaskListPage = () => {
-  const { tasks } = useTasks();
+  const [tasks, setTasks] = useState(getTasksFromLocalStorage('tasks'));
+
+  useEffect(() => {
+    // Fetch tasks once on mount
+    const storedTasks = getTasksFromLocalStorage('tasks');
+    if (storedTasks.length > 0) {
+      setTasks(storedTasks);
+    }
+  }, []);
 
   return (
     <div>
-      <h1>Task List</h1>
       <TaskBoard tasks={tasks} />
     </div>
   );
