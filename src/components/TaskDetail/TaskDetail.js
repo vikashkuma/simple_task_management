@@ -1,22 +1,22 @@
 // src/components/TaskDetail/TaskDetail.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Typography, Button } from '@mui/material';
+import './TaskDetail.css';
 
 const TaskDetail = ({ tasks }) => {
   const { id } = useParams();
-  const task = tasks.find((task) => task.id === parseInt(id, 10));
-
-  if (!task) return <Typography variant="h6">Task not found</Typography>;
+  const task = tasks.find((task) => String(task.id) === id);
 
   return (
-    <Card style={{ margin: '16px 0' }}>
-      <CardContent>
-        <Typography variant="h4">{task.name}</Typography>
-        <Typography variant="body1">{task.description}</Typography>
-        <Typography variant="body1">Deadline: {task.deadline}</Typography>
-      </CardContent>
-    </Card>
+    <div className="task-detail">
+      <Typography variant="h4">{task.name}</Typography>
+      <Typography variant="body1">{task.description}</Typography>
+      <Typography variant="body2">Deadline: {task.deadline}</Typography>
+      <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+        Edit Task
+      </Button>
+    </div>
   );
 };
 
