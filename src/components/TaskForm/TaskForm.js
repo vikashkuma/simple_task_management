@@ -1,46 +1,54 @@
 // src/components/TaskForm/TaskForm.js
 import React, { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
+import './TaskForm.css';
 
 const TaskForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [deadline, setDeadline] = useState('');
+  const [task, setTask] = useState({
+    name: '',
+    description: '',
+    deadline: '',
+  });
+
+  const handleChange = (e) => {
+    setTask({ ...task, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, description, deadline });
-    setName('');
-    setDescription('');
-    setDeadline('');
+    onSubmit(task);
+    setTask({ name: '', description: '', deadline: '' });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="task-form">
       <TextField
-        label="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        label="Task Name"
+        name="name"
+        value={task.name}
+        onChange={handleChange}
         required
       />
       <TextField
         label="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
+        name="description"
+        value={task.description}
+        onChange={handleChange}
+        multiline
+        rows={4}
       />
       <TextField
         label="Deadline"
+        name="deadline"
         type="date"
-        value={deadline}
-        onChange={(e) => setDeadline(e.target.value)}
-        required
+        value={task.deadline}
+        onChange={handleChange}
         InputLabelProps={{
           shrink: true,
         }}
       />
-      <Button type="submit" variant="contained" color="primary">
-        Add Task
+      <Button variant="contained" color="primary" type="submit">
+        Save Task
       </Button>
     </form>
   );

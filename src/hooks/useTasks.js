@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(getFromLocalStorage('tasks'));
 
   useEffect(() => {
     const storedTasks = getFromLocalStorage('tasks') || [];

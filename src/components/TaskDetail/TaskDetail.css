@@ -1,0 +1,13 @@
+.task-detail {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.task-detail h2 {
+  margin-bottom: 10px;
+}
+
+.task-detail p {
+  margin: 10px 0;
+}
