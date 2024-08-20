@@ -1,8 +1,9 @@
 .task-board {
   padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  gap: 15px;
 }
 
 .task-card {
@@ -15,4 +16,11 @@
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   background-color: darkgray !important;
+}
+
+.task-action {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
 }
