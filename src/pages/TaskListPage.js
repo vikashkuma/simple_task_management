@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import TaskBoard from '../components/TaskBoard/TaskBoard';
-import {getTasksFromLocalStorage} from '../utils/localStorage'
+import {getTasksFromLocalStorage} from '../utils/localStorage';
+import { useTasks } from '../hooks/useTasks';
 
 const TaskListPage = () => {
-  const [tasks, setTasks] = useState(getTasksFromLocalStorage('tasks'));
+  const {tasks, deleteTask} = useTasks();
+  const [taskList, setTaskList] = useState(tasks);
 
   useEffect(() => {
-    // Fetch tasks once on mount
-    const storedTasks = getTasksFromLocalStorage('tasks');
-    if (storedTasks.length > 0) {
-      setTasks(storedTasks);
-    }
-  }, []);
+      setTaskList(tasks);
+  }, [tasks]);
+
+  const onDeleteTask = (id) => {
+    deleteTask(id);
+    setTaskList(tasks);
+  }
 
   return (
     <div>
-      <TaskBoard tasks={tasks} />
+      <TaskBoard tasks={taskList} onDelete={onDeleteTask}/>
     </div>
   );
 };

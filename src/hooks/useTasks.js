@@ -9,7 +9,7 @@ export const useTasks = () => {
     const newTask = { ...task, id: Date.now().toString() };
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
-    saveTasksToLocalStorage(updatedTasks);
+    saveTasksToLocalStorage('tasks', updatedTasks);
   };
 
   const updateTask = async (id, updatedTask) => {
@@ -20,9 +20,16 @@ export const useTasks = () => {
     saveTasksToLocalStorage('tasks', updatedTasks);
   };
 
+  const deleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage('tasks',updatedTasks);
+  };
+
   return {
     tasks,
     addTask,
     updateTask,
+    deleteTask
   };
 };
